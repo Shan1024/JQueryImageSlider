@@ -12,22 +12,32 @@ $(function(){
   var $slideContainer = $slider.find('.slides');
   var $slides = $slideContainer.find('.slide');
 
-  setInterval(function(){
+  var interval;
 
-    $slideContainer.animate({'margin-left': '-='+width}, animationSpeed, function(){
+  function startSlider(){
 
-      currentSlide++;
+    interval = setInterval(function(){
 
-      if(currentSlide == $slides.length){
+      $slideContainer.animate({'margin-left': '-='+width}, animationSpeed, function(){
 
-        currentSlide = 1;
-        
-        $slideContainer.css('margin-left', 0);
+        currentSlide++;
 
-      }
+        if(currentSlide == $slides.length){
+          currentSlide = 1;
+          $slideContainer.css('margin-left', 0);
+        }
 
-    });
+      });
 
-  }, pause);
+    }, pause);
+  }
+
+  function pauseSlider(){
+    clearInterval(interval);
+  }
+
+  $slider.on('mouseenter', pauseSlider).on('mouseleave', startSlider);
+
+  startSlider();
 
 });
